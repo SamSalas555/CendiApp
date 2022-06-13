@@ -355,12 +355,12 @@ function modificarFormulario() {
   });
 }
 
-function enviarFormulario() {
-  $("#Enviar").click(function() {
-    $(".botonesConfirmacion").hide();
-    enviaBaseDeDatos();
-  });
-}
+// function enviarFormulario() {
+//   $("#Enviar").click(function() {
+//     $(".botonesConfirmacion").hide();
+//     enviaBaseDeDatos();
+//   });
+// }
 
 function alertaVerificaDatos() {
   alert("Hola " + $("#nombreDH").val() + " " + $("#apePaternoDH").val() + " " +
