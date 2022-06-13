@@ -81,8 +81,8 @@ const campos = {
 }
 
 $(function() {
-  formulario.submit(function(event) {
-    event.preventDefault();
+  $("#Enviar").click(function(event) {
+    //event.preventDefault()
     if ($('.no').prop('checked')) {
       if (campos.boleta && campos.nombre && campos.apePaterno && campos.apeMaterno && campos.curp &&
         campos.apePaternoDH && campos.apeMaternoDH && campos.nombreDH && campos.curpDH && campos.calle && campos.noInt &&
@@ -305,19 +305,6 @@ function calcularEdad() {
   $('#meses').val(m);
 }
 
-function enviaBaseDeDatos() {
-  $(".mensajeExito").addClass("mensajeExito-Activo");
-  formulario.off(); //desactiva event.preventDefault();
-  formulario.submit(); //Permite enviar los datos del formulario a la base de datos
-  setTimeout(function() {
-    $(".mensajeExito").hide();
-    formulario[0].reset();
-  }, 3000);
-
-  $(".fas").remove(".correcto, .fa-check-circle");
-
-}
-
 function deSoloLectura() {
   inputs.each(function() {
     $(this).prop("disabled", true);
@@ -348,19 +335,38 @@ function finalDePagina() {
 
 function modificarFormulario() {
   $("#Modificar").on("mouseleave", function() {
-    event.preventDefault();
-    alert("Ahora puedes modificar");
+   //event.preventDafult(); 
+  alert("Ahora puedes modificar");
     inicioDePagina();
     modificarInputs();
   });
 }
 
-// function enviarFormulario() {
-//   $("#Enviar").click(function() {
-//     $(".botonesConfirmacion").hide();
-//     enviaBaseDeDatos();
-//   });
-// }
+function enviarFormulario() {
+   $("#serieEnvia").click(function() {
+      $(".botonesConfirmacion").hide();
+      $(".mensajeExito").addClass("mensajeExito-Activo");
+                  var data = $('#formulario').serialize();
+                  alert(data);
+                  return false;
+                  $.ajax({
+                      type:"POST",
+                      url:"savedata.php",
+                      data:data,
+                      success:function(r){
+                          if(r==1){
+                              alert("Registro Exitoso");
+                          }
+                          else{
+                              alert("Fallo en registro");
+                          }
+                      }
+                  });
+                  return false;
+        
+      
+   });
+ }
 
 function alertaVerificaDatos() {
   alert("Hola " + $("#nombreDH").val() + " " + $("#apePaternoDH").val() + " " +
