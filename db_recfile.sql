@@ -22,8 +22,7 @@ CREATE TABLE DERECHOHABIENTE(
     extension int,
     contrasena varchar(50),
     imagen longblob,
-    CONSTRAINT keyderechoh
-    	PRIMARY KEY(nemp,contrasena)
+    CONSTRAINT keyderechoh PRIMARY KEY(nemp,contrasena)
 )
 
 CREATE TABLE nino(
