@@ -3,7 +3,7 @@
     'localhost',
     'root',
     '',
-    'cendi'
+    'ptweb'
   );
 
   if(isset($conn)){

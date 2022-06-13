@@ -347,8 +347,6 @@ function enviarFormulario() {
       $(".botonesConfirmacion").hide();
       $(".mensajeExito").addClass("mensajeExito-Activo");
                   var data = $('#formulario').serialize();
-                  alert(data);
-                  return false;
                   $.ajax({
                       type:"POST",
                       url:"savedata.php",
