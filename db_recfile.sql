@@ -42,4 +42,23 @@ CREATE TABLE nino(
 
 )
 
+CREATE TABLE conyuge(
+    apPat varchar(50),
+    apMat varchar(50),
+    nombre varchar(50),
+    trabajocon varchar(50),
+    callecon varchar(80),
+    numExtcon int,
+    numIntcon int,
+    coloniacon varchar(80),
+    municipiocon varchar(80),
+    teltrab int,
+    ext int,
+    curpcon varchar(20),
+    nemp varchar(20),
+    CONSTRAINT fkcon FOREING KEY(nemp) REFERENCES derechohabiente(nemp),
+    CONSTRAINT pkcon PRIMARY KEY(nemp)
+
+)
+
 INSERT INTO conyuge(`apPatC`, `apMatC`, `nombreC`, `calleC`, `numExtC`, `numIntC`, `coloniaC`, `municipioC`, `entidadfedC`, `cpC`, `telfijoC`, `telcelC`, `trabajo`, `ocupacion`, `teltrabajo`, `telceltrabajo`, `religion`, `nemp`) VALUES('apPat', 'apMatC', 'nombreC', 'calleC', '5', '5', 'coloniaC', 'municipioC', 'entidadfedC', '30', '555', '5555', 'sadsda', 'asdasd', '444', '444', '444', '44')
