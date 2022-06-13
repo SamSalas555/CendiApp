@@ -23,7 +23,7 @@ CREATE TABLE DERECHOHABIENTE(
     contrasena varchar(50),
     imagen longblob,
     CONSTRAINT keyderechoh PRIMARY KEY(nemp,contrasena)
-)
+);
 
 CREATE TABLE nino(
     apPatN varchar(50),
@@ -37,9 +37,9 @@ CREATE TABLE nino(
     grupo varchar(50),
     cendi varchar(50),
     ciclo varchar(50),
-    CONSTRAINT fkemp FOREING KEY(nemp) REFERENCES derechohabiente(nemp),
-
-)
+    CONSTRAINT fkemp FOREIGN KEY(nemp) REFERENCES derechohabiente (nemp),
+    CONSTRAINT pkemp PRIMARY KEY(folio,nemp)
+);
 
 CREATE TABLE conyuge(
     apPat varchar(50),
@@ -58,6 +58,6 @@ CREATE TABLE conyuge(
     CONSTRAINT fkcon FOREING KEY(nemp) REFERENCES derechohabiente(nemp),
     CONSTRAINT pkcon PRIMARY KEY(nemp)
 
-)
+);
 
 INSERT INTO conyuge(`apPatC`, `apMatC`, `nombreC`, `calleC`, `numExtC`, `numIntC`, `coloniaC`, `municipioC`, `entidadfedC`, `cpC`, `telfijoC`, `telcelC`, `trabajo`, `ocupacion`, `teltrabajo`, `telceltrabajo`, `religion`, `nemp`) VALUES('apPat', 'apMatC', 'nombreC', 'calleC', '5', '5', 'coloniaC', 'municipioC', 'entidadfedC', '30', '555', '5555', 'sadsda', 'asdasd', '444', '444', '444', '44')
