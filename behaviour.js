@@ -22,7 +22,7 @@ const expresiones = {
   telCel: /^[0-9]{10}$/,
   correo: /^([a-záéíóúñüA-ZÁÉÍÓÚÑÜ0-9.\-_/\\]+@\w+(\.\w+)+)$/,
   puesto: /^([A-ZÁÉÍÓÑÚa-záéíóúñ]+\s?)+$/,
-  saldo: /^\d{4,5}$/,
+  sueldo: /^\d{4,5}$/,
   noEmp: /^\d{5,7}$/,
   ext: /^\d{5}$/,
   //Datos del conyuge
@@ -62,7 +62,7 @@ const campos = {
   telCel: false,
   correo: false,
   puesto: false,
-  saldo: false,
+  sueldo: false,
   noEmp: false,
   ext: false,
   //datos del conyuge
@@ -87,7 +87,7 @@ $(function() {
       if (campos.boleta && campos.nombre && campos.apePaterno && campos.apeMaterno && campos.curp &&
         campos.apePaternoDH && campos.apeMaternoDH && campos.nombreDH && campos.curpDH && campos.calle && campos.noInt &&
         campos.noExt && campos.colonia && campos.municipio && campos.cp && campos.telFijo && campos.telCel &&
-        campos.correo && campos.puesto && campos.saldo && campos.noEmp && campos.ext &&
+        campos.correo && campos.puesto && campos.sueldo && campos.noEmp && campos.ext &&
         ($("#cendi").val() !== '') && ($("#entidad").val() !== '') && ($("#ocupacion").val() !== '') &&
         ($("#adscripcion").val() !== '') && ($("#horario").val() !== '') &&
         ($("#file").val() !== '')) {
@@ -97,7 +97,10 @@ $(function() {
         $(".botonEnviar").hide();
         $(".botonesConfirmacion").addClass("botonesConfirmacion-Activos");
         modificarFormulario();
-        enviarFormulario();
+      $("#serieEnvia").click(function() {
+        $(".botonesConfirmacion").hide();
+        $(".mensajeExito").addClass("mensajeExito-Activo");
+        });
       } else {
         inicioDePagina();
         $(".formularioMensajeError").addClass("formularioMensajeError-Activo");
@@ -110,7 +113,7 @@ $(function() {
       if (campos.boleta && campos.nombre && campos.apePaterno && campos.apeMaterno && campos.curp &&
         campos.apePaternoDH && campos.apeMaternoDH && campos.nombreDH && campos.curpDH && campos.calle && campos.noInt &&
         campos.noExt && campos.colonia && campos.municipio && campos.cp && campos.telFijo && campos.telCel &&
-        campos.correo && campos.puesto && campos.saldo && campos.noEmp && campos.ext && campos.apePaternoCon &&
+        campos.correo && campos.puesto && campos.sueldo && campos.noEmp && campos.ext && campos.apePaternoCon &&
         campos.apeMaternoCon && campos.nombreCon && campos.trabajoCon && campos.telTrabajoCon && campos.calleTraCon &&
         campos.noExtCon && campos.noIntCon && campos.coloniaCon && campos.municipioCon && campos.extensionCon &&
         campos.curpCon && ($("#cendi").val() !== '') && ($("#entidad").val() !== '') && ($("#ocupacion").val() !== '') &&
@@ -120,6 +123,23 @@ $(function() {
         inicioDePagina(); //nos lleva al inicio de la pagina
         $(".botonEnviar").hide();
         $(".botonesConfirmacion").addClass("botonesConfirmacion-Activos");
+        $(".botonesConfirmacion").hide();
+        $(".mensajeExito").addClass("mensajeExito-Activo");
+                    var data = $('#formulario').serialize();
+                    $.ajax({
+                        type:"POST",
+                        url:"savedata.php",
+                        data:data,
+                        success:function(r){
+                            if(r==1){
+                                alert("Registro Exitoso");
+                            }
+                            else{
+                                alert("Fallo en registro");
+                            }
+                        }
+                    });
+                    return false;
         modificarFormulario();
         enviarFormulario();
       } else {
@@ -131,14 +151,8 @@ $(function() {
       }
     }
   });
-
-  $('.datepicker').datepicker({ //materialize CALENDARIO
-    minDate: new Date(2015, 5, 14),
-    maxDate: new Date(2022, 5, 10),
-    autoClose: true
-  });
-  $('select').formSelect(); //materialize SELECT
-  $('#fechaNacimiento').on('change', calcularEdad);
+  
+  //$('#fechaNacimiento').on('change', calcularEdad);
 
   $('#datosCon').hide(); //MOSTRAR O NO LOS DATOS DEL CONYUGE
   inputs.on('change', function() {
@@ -149,13 +163,13 @@ $(function() {
     }
   });
 
-  inputs.each(function() {
-    $(this).keyup(validarFormulario); //cada que dejamos de presionar una tecla
-    $(this).blur(validarFormulario); //cada que hacemos click en cualquier parte de la pag
-  });
+  // inputs.each(function() {
+  //   $(this).keyup(validarFormulario); //cada que dejamos de presionar una tecla
+  //   $(this).blur(validarFormulario); //cada que hacemos click en cualquier parte de la pag
+  // });
 
 
-
+  
 });
 
 
@@ -220,8 +234,8 @@ function validarFormulario(e) {
     case "puesto":
       validarCampo(expresiones.puesto, e.target, e.target.name);
       break;
-    case "saldo":
-      validarCampo(expresiones.saldo, e.target, e.target.name);
+    case "sueldo":
+      validarCampo(expresiones.sueldo, e.target, e.target.name);
       break;
     case "noEmp":
       validarCampo(expresiones.noEmp, e.target, e.target.name);
@@ -287,23 +301,23 @@ function validarCampo(expresion, input, campo) {
   }
 }
 
-function calcularEdad() {
-  fecha = $(this).val();
-  var hoy = new Date();
-  var cumpleanos = new Date(fecha);
-  var edad = hoy.getFullYear() - cumpleanos.getFullYear();
-  var m = hoy.getMonth() - cumpleanos.getMonth();
+// function calcularEdad() {
+//   fecha = $(this).val();
+//   var hoy = new Date();
+//   var cumpleanos = new Date(fecha);
+//   var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+//   var m = hoy.getMonth() - cumpleanos.getMonth();
 
-  if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
-    edad--;
-  }
-  $('#edad').val(edad);
+//   if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+//     edad--;
+//   }
+//   $('#edad').val(edad);
 
-  if (m < 0) {
-    m += 12;
-  }
-  $('#meses').val(m);
-}
+//   if (m < 0) {
+//     m += 12;
+//   }
+//   $('#meses').val(m);
+// }
 
 function deSoloLectura() {
   inputs.each(function() {
@@ -343,27 +357,8 @@ function modificarFormulario() {
 }
 
 function enviarFormulario() {
-   $("#serieEnvia").click(function() {
-      $(".botonesConfirmacion").hide();
-      $(".mensajeExito").addClass("mensajeExito-Activo");
-                  var data = $('#formulario').serialize();
-                  $.ajax({
-                      type:"POST",
-                      url:"savedata.php",
-                      data:data,
-                      success:function(r){
-                          if(r==1){
-                              alert("Registro Exitoso");
-                          }
-                          else{
-                              alert("Fallo en registro");
-                          }
-                      }
-                  });
-                  return false;
-        
-      
-   });
+  
+ 
  }
 
 function alertaVerificaDatos() {
